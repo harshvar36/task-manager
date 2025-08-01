@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <script defer src="./js/user.js"></script>
+    <link rel="stylesheet" href="./css/user.css">
+    <link rel="manifest" href="/manifest.json">
+    <script src="./js/install-prompt.js"></script>
+    
+    <!-- iOS Support -->
+   <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+</head>
+<body>
+    <div class="header">
+        <h2>Welcome, <span id="userName">User</span></h2>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+
+    <h3>Available Tasks</h3>
+    <div id="taskList"></div>
+
+    <h3>Submit Your Task</h3>
+    <form id="submissionForm" class="submission-form">
+        <div>
+            <label for="taskId">Select Task:</label>
+            <select id="taskId" required></select>
+        </div>
+
+        <div class="upload-container">
+            <div class="file-input-wrapper">
+                <label for="fileUpload">Upload File:</label>
+                <input type="file" id="fileUpload" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                <p class="file-requirements">
+                    Accepted files: Images (JPG, PNG), PDF, Word documents<br>
+                    Maximum file size: 5MB
+                </p>
+            </div>
+
+            <div class="upload-progress-container">
+                <div class="upload-progress"></div>
+            </div>
+
+            <div class="preview-container">
+                <!-- Image preview will be inserted here -->
+            </div>
+        </div>
+
+        <div>
+            <label for="linkInput">OR Enter Link:</label>
+            <input type="url" id="linkInput" placeholder="https://example.com">
+        </div>
+
+        <button type="submit">
+            Submit Task
+            <span class="loading-spinner"></span>
+        </button>
+    </form>
+
+    <div id="responseMessage" class="status-message"></div>
+
+    <!-- Optional: Add a submissions history section -->
+    <div class="submissions-history">
+        <h3>Your Recent Submissions</h3>
+        <div id="submissionsList"></div>
+    </div>
+
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker registered successfully:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
